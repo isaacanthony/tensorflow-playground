@@ -1,5 +1,5 @@
 start:
-	docker create -it -p 6006:6006 -v ~/code/tensorflow-playground:/src -w /src --name tensorflow-playground tensorflow/tensorflow:1.3.0
+	docker create -it -p 6006:6006 -v ~/code/tensorflow-playground/src:/src -w /src --name tensorflow-playground tensorflow/tensorflow:1.3.0
 	docker start tensorflow-playground
 
 run:
