@@ -1,6 +1,9 @@
+import os
 import sys
 import tensorflow.contrib.keras as keras
 import numpy as np
+
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 path = sys.argv[1]
 
