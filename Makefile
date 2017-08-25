@@ -4,7 +4,7 @@ start:
 
 run:
 	docker exec -it tensorflow-playground rm -rf logs
-	docker exec -it tensorflow-playground python $(file)
+	docker exec -it tensorflow-playground python $(file) $(arg)
 
 tensorboard:
 	docker exec -it tensorflow-playground tensorboard --logdir logs
