@@ -23,4 +23,4 @@ results = model.predict(img)
 labels  = keras.applications.inception_v3.decode_predictions(results, top=3)[0]
 
 for label in labels:
-  print label[1]
+  print '%s %f' % (label[1], label[2])
