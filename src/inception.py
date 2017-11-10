@@ -1,7 +1,7 @@
 import os
 import sys
-import tensorflow.contrib.keras as keras
 import numpy as np
+import tensorflow.contrib.keras as keras
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
@@ -23,4 +23,4 @@ results = model.predict(img)
 labels  = keras.applications.inception_v3.decode_predictions(results, top=3)[0]
 
 for label in labels:
-  print '%s %f' % (label[1], label[2])
+  print(label[1], label[2])

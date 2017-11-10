@@ -36,5 +36,5 @@ model.fit(train_images,
 # 5. Test model
 test_loss, test_acc = model.evaluate(test_images, test_labels)
 
-print 'Test accuracy:', test_acc
-print 'Complete.'
+print("\nTest accuracy:", test_acc)
+print('Complete.')

@@ -1,6 +1,6 @@
 import os
-import tensorflow.contrib.keras as keras
 import numpy as np
+import tensorflow.contrib.keras as keras
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 

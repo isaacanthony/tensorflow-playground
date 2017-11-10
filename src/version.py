@@ -1,3 +1,5 @@
+import platform
 import tensorflow
 
-print tensorflow.__version__
+print('python', platform.python_version())
+print('tensorflow', tensorflow.__version__)

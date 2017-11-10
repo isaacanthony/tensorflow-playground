@@ -1,7 +1,7 @@
-import numpy
+import numpy as np
 import tensorflow.contrib.keras as keras
 
-dataset = numpy.loadtxt('iris.csv', delimiter=',')
+dataset = np.loadtxt('iris.csv', delimiter=',')
 
 X = dataset[:, 0:4]
 Y = keras.utils.to_categorical(dataset[:, 4], num_classes=3)
@@ -23,4 +23,4 @@ model.fit(X, Y, epochs=100, batch_size=10, callbacks=[viz])
 
 model.evaluate(X, Y)
 
-print 'Complete.'
+print("\nComplete.")

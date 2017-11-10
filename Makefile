@@ -1,10 +1,10 @@
 start:
-	@docker create -it -p 6006:6006 -v ~/code/tensorflow-playground/src:/src -w /src --name tensorflow-playground tensorflow/tensorflow:1.3.0
+	@docker create -it -p 6006:6006 -v ~/code/tensorflow-playground/src:/src -w /src --name tensorflow-playground tensorflow/tensorflow:1.4.0-py3
 	@docker start tensorflow-playground
 
 run:
 	@docker exec -it tensorflow-playground rm -rf logs
-	@docker exec -it tensorflow-playground python $(file) $(arg)
+	@docker exec -it tensorflow-playground python3 $(file).py $(arg)
 
 tensorboard:
 	@docker exec -it tensorflow-playground tensorboard --logdir logs
