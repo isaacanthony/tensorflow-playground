@@ -1,6 +1,6 @@
 import random
 
-for i in range(0, 500):
+for i in range(0, 1000):
   y = random.sample(['0', '1'], 1)[0]
   x = []
   for j in range(0, 1000):
