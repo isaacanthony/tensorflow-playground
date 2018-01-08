@@ -1,3 +1,5 @@
 *.csv
+*.hdf5
 *.jpg
+*.pickle
 logs
