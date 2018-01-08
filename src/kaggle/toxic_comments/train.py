@@ -1,4 +1,5 @@
 import pandas as pd
+import pickle
 from sklearn.model_selection import train_test_split
 import tensorflow.contrib.keras as keras
 
@@ -27,7 +28,10 @@ X_test    = keras.preprocessing.sequence.pad_sequences(sequences, maxlen=300)
 
 model = keras.models.Sequential([
     keras.layers.Embedding(20000, 128, input_length=300),
-    keras.layers.LSTM(128, dropout=0.2, recurrent_dropout=0.2),
+    keras.layers.Dropout(0.2),
+    keras.layers.Conv1D(64, 5, activation='relu'),
+    keras.layers.MaxPooling1D(pool_size=4),
+    keras.layers.LSTM(128),
     keras.layers.Dense(1, activation='sigmoid')
 ])
 
@@ -47,4 +51,12 @@ model.fit(X_train, Y_train, epochs=1, batch_size=32, callbacks=[viz])
 test_loss, test_acc = model.evaluate(X_test, Y_test)
 
 print("\nTest accuracy:", test_acc)
+
+# 6. Save tokenizer and model.
+
+with open('{}/tokenizer.pickle'.format(PWD), 'wb') as f:
+   pickle.dump(tokenizer, f)
+
+model.save('{}/model.hdf5'.format(PWD))
+
 print('Complete.')
