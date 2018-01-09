@@ -6,16 +6,17 @@ import tensorflow.contrib.keras as keras
 
 # 1. Load data into memory.
 
-PWD     = 'kaggle/toxic_comments'
-dataset = pd.read_csv("{}/train.csv".format(PWD), sep=',')
+PWD = 'kaggle/toxic_comments'
+df  = pd.read_csv("{}/train.csv".format(PWD), sep=',')
+df  = df[df['comment_text'].notnull()]
 
-X  = dataset['comment_text']
-Y1 = dataset['toxic']
-Y2 = dataset['severe_toxic']
-Y3 = dataset['obscene']
-Y4 = dataset['threat']
-Y5 = dataset['insult']
-Y6 = dataset['identity_hate']
+X  = df['comment_text']
+Y1 = df['toxic']
+Y2 = df['severe_toxic']
+Y3 = df['obscene']
+Y4 = df['threat']
+Y5 = df['insult']
+Y6 = df['identity_hate']
 
 split    = train_test_split(X, Y1, Y2, Y3, Y4, Y5, Y6, test_size=0.2)
 X_train  = split[0]
