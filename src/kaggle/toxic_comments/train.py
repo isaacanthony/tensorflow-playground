@@ -6,7 +6,7 @@ import tensorflow.contrib.keras as keras
 # 1. Load data into memory.
 
 PWD     = 'kaggle/toxic_comments'
-dataset = pd.read_csv('{}/train.csv'.format(PWD), sep=',')
+dataset = pd.read_csv("{}/train.csv".format(PWD), sep=',')
 
 X = dataset['comment_text']
 Y = dataset['toxic']
@@ -17,6 +17,9 @@ X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2)
 
 tokenizer = keras.preprocessing.text.Tokenizer(num_words=20000)
 tokenizer.fit_on_texts(X_train)
+
+with open("{}/tokenizer.pickle".format(PWD), 'wb') as f:
+   pickle.dump(tokenizer, f)
 
 sequences = tokenizer.texts_to_sequences(X_train)
 X_train   = keras.preprocessing.sequence.pad_sequences(sequences, maxlen=300)
@@ -39,24 +42,16 @@ model.compile(loss='binary_crossentropy',
               optimizer='adam',
               metrics=['accuracy'])
 
-viz = keras.callbacks.TensorBoard(log_dir='logs',
-                                  write_graph=True)
+viz  = keras.callbacks.TensorBoard(log_dir='logs', write_graph=True)
+save = keras.callbacks.ModelCheckpoint("{}/model.hdf5".format(PWD), period=1)
 
 # 4. Train model.
 
-model.fit(X_train, Y_train, epochs=1, batch_size=32, callbacks=[viz])
+model.fit(X_train, Y_train, epochs=3, batch_size=32, callbacks=[viz, save])
 
 # 5. Test model.
 
 test_loss, test_acc = model.evaluate(X_test, Y_test)
 
 print("\nTest accuracy:", test_acc)
-
-# 6. Save tokenizer and model.
-
-with open('{}/tokenizer.pickle'.format(PWD), 'wb') as f:
-   pickle.dump(tokenizer, f)
-
-model.save('{}/model.hdf5'.format(PWD))
-
 print('Complete.')
