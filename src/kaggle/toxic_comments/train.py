@@ -1,3 +1,4 @@
+import os.path
 import pandas as pd
 import pickle
 from sklearn.model_selection import train_test_split
@@ -61,12 +62,15 @@ y4  = keras.layers.Dense(1, activation='sigmoid')(y)
 y5  = keras.layers.Dense(1, activation='sigmoid')(y)
 y6  = keras.layers.Dense(1, activation='sigmoid')(y)
 
-model = keras.models.Model(inputs=ins, outputs=[y1, y2, y3, y4, y5, y6])
-
-model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+path = "{}/model.hdf5".format(PWD)
+if os.path.isfile(path):
+  model = keras.models.load_model(path)
+else:
+  model = keras.models.Model(inputs=ins, outputs=[y1, y2, y3, y4, y5, y6])
+  model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 viz  = keras.callbacks.TensorBoard(log_dir='logs', write_graph=True)
-save = keras.callbacks.ModelCheckpoint("{}/model.hdf5".format(PWD), period=1)
+save = keras.callbacks.ModelCheckpoint(path, period=1)
 
 # 4. Train model.
 
