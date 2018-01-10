@@ -46,19 +46,19 @@ else:
      pickle.dump(tokenizer, f)
 
 sequences = tokenizer.texts_to_sequences(X_train)
-X_train   = keras.preprocessing.sequence.pad_sequences(sequences, maxlen=300)
+X_train   = keras.preprocessing.sequence.pad_sequences(sequences, maxlen=256)
 
 sequences = tokenizer.texts_to_sequences(X_test)
-X_test    = keras.preprocessing.sequence.pad_sequences(sequences, maxlen=300)
+X_test    = keras.preprocessing.sequence.pad_sequences(sequences, maxlen=256)
 
 # 3. Build model.
 
-ins = keras.layers.Input(shape=(300,), dtype='int32')
+ins = keras.layers.Input(shape=(256,), dtype='int32')
 y   = keras.layers.Embedding(20000, 128)(ins)
 y   = keras.layers.Dropout(0.2)(y)
 y   = keras.layers.Conv1D(64, 5, activation='relu')(y)
 y   = keras.layers.MaxPooling1D(pool_size=4)(y)
-y   = keras.layers.LSTM(128)(y)
+y   = keras.layers.LSTM(128, recurrent_dropout=0.2)(y)
 y1  = keras.layers.Dense(1, activation='sigmoid')(y)
 y2  = keras.layers.Dense(1, activation='sigmoid')(y)
 y3  = keras.layers.Dense(1, activation='sigmoid')(y)
