@@ -35,11 +35,15 @@ Y6_test  = split[13]
 
 # 2. Preprocess text fields.
 
-tokenizer = keras.preprocessing.text.Tokenizer(num_words=20000)
-tokenizer.fit_on_texts(X_train)
-
-with open("{}/tokenizer.pickle".format(PWD), 'wb') as f:
-   pickle.dump(tokenizer, f)
+path = "{}/tokenizer.pickle".format(PWD)
+if os.path.isfile(path):
+  with open(path, 'rb') as f:
+    tokenizer = pickle.load(f)
+else:
+  tokenizer = keras.preprocessing.text.Tokenizer(num_words=20000)
+  tokenizer.fit_on_texts(X_train)
+  with open(path, 'wb') as f:
+     pickle.dump(tokenizer, f)
 
 sequences = tokenizer.texts_to_sequences(X_train)
 X_train   = keras.preprocessing.sequence.pad_sequences(sequences, maxlen=300)
