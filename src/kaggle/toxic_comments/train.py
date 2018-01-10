@@ -8,7 +8,6 @@ import tensorflow.contrib.keras as keras
 
 PWD = 'kaggle/toxic_comments'
 df  = pd.read_csv("{}/train.csv".format(PWD), sep=',')
-df  = df[df['comment_text'].notnull()]
 
 X  = df['comment_text']
 Y1 = df['toxic']
