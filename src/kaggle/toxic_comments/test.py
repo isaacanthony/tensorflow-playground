@@ -20,7 +20,7 @@ model = keras.models.load_model("{}/model.hdf5".format(PWD))
 # 3. Preprocess text fields.
 
 sequences = tokenizer.texts_to_sequences(X)
-X         = keras.preprocessing.sequence.pad_sequences(sequences, maxlen=256)
+X         = keras.preprocessing.sequence.pad_sequences(sequences, maxlen=512)
 
 # 4. Output predictions.
 

@@ -40,25 +40,22 @@ if os.path.isfile(path):
   with open(path, 'rb') as f:
     tokenizer = pickle.load(f)
 else:
-  tokenizer = keras.preprocessing.text.Tokenizer(num_words=20000)
+  tokenizer = keras.preprocessing.text.Tokenizer(num_words=20000, char_level=True)
   tokenizer.fit_on_texts(X_train)
   with open(path, 'wb') as f:
      pickle.dump(tokenizer, f)
 
 sequences = tokenizer.texts_to_sequences(X_train)
-X_train   = keras.preprocessing.sequence.pad_sequences(sequences, maxlen=256)
+X_train   = keras.preprocessing.sequence.pad_sequences(sequences, maxlen=512)
 
 sequences = tokenizer.texts_to_sequences(X_test)
-X_test    = keras.preprocessing.sequence.pad_sequences(sequences, maxlen=256)
+X_test    = keras.preprocessing.sequence.pad_sequences(sequences, maxlen=512)
 
 # 3. Build model.
 
-ins = keras.layers.Input(shape=(256,), dtype='int32')
+ins = keras.layers.Input(shape=(512,), dtype='int32')
 y   = keras.layers.Embedding(20000, 128)(ins)
-y   = keras.layers.Dropout(0.2)(y)
-y   = keras.layers.Conv1D(64, 5, activation='relu')(y)
-y   = keras.layers.MaxPooling1D(pool_size=4)(y)
-y   = keras.layers.LSTM(128, recurrent_dropout=0.2)(y)
+y   = keras.layers.LSTM(128, dropout=0.2, recurrent_dropout=0.2)(y)
 y1  = keras.layers.Dense(1, activation='sigmoid')(y)
 y2  = keras.layers.Dense(1, activation='sigmoid')(y)
 y3  = keras.layers.Dense(1, activation='sigmoid')(y)
