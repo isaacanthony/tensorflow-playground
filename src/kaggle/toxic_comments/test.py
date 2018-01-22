@@ -5,7 +5,7 @@ import tensorflow.contrib.keras as keras
 # 1. Load data into memory.
 
 PWD = 'kaggle/toxic_comments'
-df  = pd.read_csv('{}/test.csv'.format(PWD), sep=',')
+df  = pd.read_csv('{}/predict.csv'.format(PWD), sep=',')
 
 ID = df['id']
 X  = df['comment_text'].fillna('')

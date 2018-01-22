@@ -1,37 +1,29 @@
 import os.path
 import pandas as pd
 import pickle
-from sklearn.model_selection import train_test_split
 import tensorflow.contrib.keras as keras
 
 # 1. Load data into memory.
 
-PWD = 'kaggle/toxic_comments'
-df  = pd.read_csv("{}/train.csv".format(PWD), sep=',')
+PWD   = 'kaggle/toxic_comments'
+train = pd.read_csv("{}/train.csv".format(PWD), sep=',')
+test  = pd.read_csv("{}/test.csv".format(PWD), sep=',')
 
-X  = df['comment_text']
-Y1 = df['toxic']
-Y2 = df['severe_toxic']
-Y3 = df['obscene']
-Y4 = df['threat']
-Y5 = df['insult']
-Y6 = df['identity_hate']
+X_train  = train['comment_text']
+Y1_train = train['toxic']
+Y2_train = train['severe_toxic']
+Y3_train = train['obscene']
+Y4_train = train['threat']
+Y5_train = train['insult']
+Y6_train = train['identity_hate']
 
-split    = train_test_split(X, Y1, Y2, Y3, Y4, Y5, Y6, test_size=0.2)
-X_train  = split[0]
-X_test   = split[1]
-Y1_train = split[2]
-Y1_test  = split[3]
-Y2_train = split[4]
-Y2_test  = split[5]
-Y3_train = split[6]
-Y3_test  = split[7]
-Y4_train = split[8]
-Y4_test  = split[9]
-Y5_train = split[10]
-Y5_test  = split[11]
-Y6_train = split[12]
-Y6_test  = split[13]
+X_test  = test['comment_text']
+Y1_test = test['toxic']
+Y2_test = test['severe_toxic']
+Y3_test = test['obscene']
+Y4_test = test['threat']
+Y5_test = test['insult']
+Y6_test = test['identity_hate']
 
 # 2. Preprocess text fields.
 
