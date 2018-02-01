@@ -20,14 +20,14 @@ sequences = tokenizer.texts_to_sequences(X_test)
 X_test    = keras.preprocessing.sequence.pad_sequences(sequences, maxlen=1024)
 
 model = keras.models.Sequential([
-  keras.layers.Embedding(4, 4, input_shape=X_train.shape[1:]),
-  keras.layers.Conv1D(64, 20, activation='relu'),
-  keras.layers.MaxPooling1D(pool_size=4),
-  keras.layers.Conv1D(32, 20, activation='relu'),
-  keras.layers.MaxPooling1D(pool_size=4),
-  keras.layers.Flatten(),
-  keras.layers.Dense(12, activation='relu'),
-  keras.layers.Dense(1, activation='sigmoid')
+    keras.layers.Embedding(4, 4, input_shape=X_train.shape[1:]),
+    keras.layers.Conv1D(64, 20, activation='relu'),
+    keras.layers.MaxPooling1D(pool_size=4),
+    keras.layers.Conv1D(32, 20, activation='relu'),
+    keras.layers.MaxPooling1D(pool_size=4),
+    keras.layers.Flatten(),
+    keras.layers.Dense(12, activation='relu'),
+    keras.layers.Dense(1, activation='sigmoid')
 ])
 
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
