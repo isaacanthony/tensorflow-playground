@@ -11,5 +11,8 @@ msk   = np.random.rand(len(df)) <= (1.0 - TEST_SIZE)
 train = df[msk]
 test  = df[~msk]
 
-train.to_csv('dna/train.csv', sep=',')
-test.to_csv('dna/test.csv', sep=',')
+train = train.drop(columns=['split'])
+test = test.drop(columns=['split'])
+
+train.to_csv('dna/train.csv', sep=',', index=False)
+test.to_csv('dna/test.csv', sep=',', index=False)
