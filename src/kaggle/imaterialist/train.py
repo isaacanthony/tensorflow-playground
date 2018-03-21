@@ -26,11 +26,11 @@ print(Y.shape)
 
 # 2. Import non-trainable inception model
 
-base = keras.applications.inception_v3.InceptionV3(include_top=True,
+base = keras.applications.inception_v3.InceptionV3(include_top=False,
                                                    weights='imagenet',
                                                    input_tensor=None,
                                                    input_shape=(299, 299, 3),
-                                                   pooling=None,
+                                                   pooling='max',
                                                    classes=1000)
 
 for layer in base.layers:
@@ -56,4 +56,11 @@ viz  = keras.callbacks.TensorBoard(log_dir='logs', write_graph=True)
 save = keras.callbacks.ModelCheckpoint(path, period=1)
 
 model.fit(X, Y, epochs=6, batch_size=32, callbacks=[viz, save])
-model.evaluate(X, Y)
+
+# 6. Test model
+
+loss, acc = model.evaluate(X, Y)
+
+print("\nLoss: ", loss)
+print("\nAccuracy: ", acc)
+print('Complete.')
