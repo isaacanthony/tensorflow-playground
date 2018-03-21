@@ -12,8 +12,8 @@ with open("{}/{}.csv".format(PWD, SET), 'w') as csv_path:
     csv_writer.writerow(['image_id', 'label_id'])
 
     for annotation in data['annotations']:
-        jpg_path = "{}/{}/{}.jpg".format(PWD, SET, annotation['image_id'])
-        if os.path.isfile(jpg_path):
+        filepath = "{}/{}/{}".format(PWD, SET, annotation['image_id'])
+        if os.path.isfile(filepath):
             csv_writer.writerow([annotation['image_id'], annotation['label_id']])
 
 # Generate test CSV
@@ -21,6 +21,6 @@ with open("{}/{}.csv".format(PWD, SET), 'w') as csv_path:
 #     f.write("image_id\n")
 #
 #     for image in data['images']:
-#         jpg_path = "{}/{}/{}.jpg".format(PWD, SET, image['image_id'])
-#         if os.path.isfile(jpg_path):
+#         filepath = "{}/{}/{}".format(PWD, SET, annotation['image_id'])
+#         if os.path.isfile(filepath):
 #             f.write("{}\n".format(image['image_id']))

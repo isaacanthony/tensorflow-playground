@@ -8,7 +8,7 @@ SET  = 'validation' # 'train' # 'test'
 data = json.load(open("{}/{}.json".format(PWD, SET)))
 
 for image in data['images']:
-    filepath = "{}/{}/{}.jpg".format(PWD, SET, image['image_id'])
+    filepath = "{}/{}/{}".format(PWD, SET, image['image_id'])
     if not os.path.isfile(filepath):
         try:
             req = urllib.request.urlopen(image['url'][0])
