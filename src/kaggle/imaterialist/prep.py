@@ -1,6 +1,7 @@
 import csv
 import json
 import os.path
+import tensorflow.contrib.keras as keras
 
 PWD  = 'kaggle/imaterialist'
 SET  = 'validation' # 'train' # 'test'
@@ -14,7 +15,11 @@ with open("{}/{}.csv".format(PWD, SET), 'w') as csv_path:
     for annotation in data['annotations']:
         filepath = "{}/{}/{}".format(PWD, SET, annotation['image_id'])
         if os.path.isfile(filepath):
-            csv_writer.writerow([annotation['image_id'], annotation['label_id']])
+            try:
+                keras.preprocessing.image.load_img(filepath)
+                csv_writer.writerow([annotation['image_id'], annotation['label_id']])
+            except:
+                None
 
 # Generate test CSV
 # with open("{}/{}.csv".format(PWD, SET), 'w') as f:
