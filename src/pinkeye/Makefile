@@ -1,18 +1,19 @@
-prep:
-	touch keywords.txt
+install:
 	mkdir downloads
-	echo "id,class" > data.csv
+	wget https://raw.githubusercontent.com/ostrolucky/Bulk-Bing-Image-downloader/master/bbid.py -O bing.py
+	wget https://raw.githubusercontent.com/deepanprabhu/duckduckgo-images-api/master/api.py -O duckduckgo_original.py
+	head -n -2 duckduckgo_original.py > duckduckgo.py
+	echo "\nimport sys;\nsearch(sys.argv[1]);" >> duckduckgo.py
+	rm duckduckgo_original.py
 
 download:
-	googleimagesdownload -kf keywords.txt
+	python3 bing.py --search-string $(search) --output downloads/$(search)
+	python duckduckgo.py $(search) | grep "Image http" | cut -d " " -f 2 | xargs wget -P downloads/$(search)
 
-install:
-	sudo pip install google_images_download
-
-tocsv:
-	ruby tocsv.rb >> data.csv
+edit:
+	find ./downloads -name '*' -exec mogrify -resize 299x299 -format jpg {} +
 
 clean:
-	rm keywords.txt
-	rm -r downloads
-	rm data.csv
+	rm -rf downloads
+	rm -f bing.py
+	rm -f duckduckgo.py
