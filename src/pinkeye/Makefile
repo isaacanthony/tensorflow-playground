@@ -7,8 +7,9 @@ install:
 	rm duckduckgo_original.py
 
 download:
-	python3 bing.py --search-string $(search) --output downloads/$(search)
-	python duckduckgo.py $(search) | grep "Image http" | cut -d " " -f 2 | xargs wget -P downloads/$(search)
+	$(eval dir=`echo "$(search)" | sed -e "s/ /_/g"`)
+	python3 bing.py --search-string "$(search)" --output downloads/$(dir)
+	python duckduckgo.py "$(search)" | grep "Image http" | cut -d " " -f 2 | xargs wget -P downloads/$(dir)
 
 edit:
 	find ./downloads -name '*' -exec mogrify -resize 299x299 -format jpg {} +
