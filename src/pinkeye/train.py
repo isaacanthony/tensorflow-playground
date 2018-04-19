@@ -8,7 +8,8 @@ PWD = 'pinkeye'
 base = keras.applications.inception_v3.InceptionV3(
     include_top=False,
     weights='imagenet',
-    input_shape=(299, 299, 3))
+    input_shape=(299, 299, 3),
+    pooling='avg')
 
 for layer in base.layers:
     layer.trainable = False
@@ -16,9 +17,7 @@ for layer in base.layers:
 # 2. Add extra layers on top
 
 y = base.output
-y = keras.layers.Flatten()(y)
 y = keras.layers.Dense(32, activation='relu')(y)
-y = keras.layers.Dense(16, activation='relu')(y)
 y = keras.layers.Dense(3, activation='sigmoid')(y)
 
 path = "{}/model.hdf5".format(PWD)
