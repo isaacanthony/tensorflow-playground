@@ -22,7 +22,7 @@ y = base.output
 y = keras.layers.Dense(32, activation='relu')(y)
 y = keras.layers.Dense(3, activation='sigmoid')(y)
 
-path = "{}/model.hdf5".format(PWD)
+path = "{}/model.h5".format(PWD)
 if os.path.isfile(path):
     model = keras.models.load_model(path)
 else:
