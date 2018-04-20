@@ -6,31 +6,31 @@ PWD   = 'pinkeye'
 MODEL = "{}/model.h5".format(PWD)
 LOGS  = "logs/{}:{}".format(time.localtime().tm_hour, time.localtime().tm_min)
 
-# 1. Import non-trainable inception model
-
-base = keras.applications.inception_v3.InceptionV3(
-    include_top=False,
-    weights='imagenet',
-    input_shape=(299, 299, 3),
-    pooling='avg')
-
-for layer in base.layers:
-    layer.trainable = False
-
-# 2. Add extra layers on top
-
-y = base.output
-y = keras.layers.Dense(32, activation='relu')(y)
-y = keras.layers.Dense(3, activation='sigmoid')(y)
-
 if os.path.isfile(MODEL):
+    # Load model if already exists.
     model = keras.models.load_model(MODEL)
+
 else:
+    # Import non-trainable inception model.
+    base = keras.applications.inception_v3.InceptionV3(
+        include_top=False,
+        weights='imagenet',
+        input_shape=(299, 299, 3),
+        pooling='avg')
+
+    for layer in base.layers:
+        layer.trainable = False
+
+    # Add extra layers on top.
+    y = base.output
+    y = keras.layers.Dense(32, activation='relu')(y)
+    y = keras.layers.Dense(3, activation='sigmoid')(y)
+
+    # Construct model.
     model = keras.models.Model(inputs=base.input, outputs=y)
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-# 3. Stream photos.
-
+# Stream photos.
 train_datagen = keras.preprocessing.image.ImageDataGenerator(
     rescale=1. / 255,
     rotation_range=20,
@@ -41,6 +41,7 @@ train_datagen = keras.preprocessing.image.ImageDataGenerator(
     channel_shift_range=0.1,
     horizontal_flip=True)
 
+# Train model.
 train_generator = train_datagen.flow_from_directory(
     "{}/downloads".format(PWD),
     target_size=(299, 299),
