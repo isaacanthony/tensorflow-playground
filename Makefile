@@ -13,6 +13,9 @@ tfjs:
 	@docker exec -it tensorflow-playground pip3 install tensorflowjs
 	@docker exec -it tensorflow-playground tensorflowjs_converter --input_format keras $(file) $(dir)
 
+server:
+	@docker exec -it tensorflow-playground python3 -m http.server 6006
+
 bash:
 	@docker exec -it tensorflow-playground bash
 

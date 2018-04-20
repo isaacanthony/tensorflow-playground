@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>TensorflowJS Test</title>
+</head>
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.9.0"> </script>
+  <script>
+    (function() {
+      const predict = async function() {
+        const model = await tf.loadModel('model/model.json');
+        console.log(model);
+        // const example = tf.fromPixels(webcamElement);
+        // const prediction = model.predict(example);
+      };
+
+      predict();
+    })();
+  </script>
+</body>
+</html>
