@@ -31,8 +31,12 @@ else:
 
 train_datagen = keras.preprocessing.image.ImageDataGenerator(
     rescale=1. / 255,
+    rotation_range=20,
+    width_shift_range=0.2,
+    height_shift_range=0.2,
     shear_range=0.2,
     zoom_range=0.2,
+    channel_shift_range=0.1,
     horizontal_flip=True)
 
 train_generator = train_datagen.flow_from_directory(
