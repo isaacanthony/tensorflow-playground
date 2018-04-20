@@ -2,8 +2,9 @@ import os.path
 import tensorflow.contrib.keras as keras
 import time
 
-PWD = 'pinkeye'
-LOG = "logs/{}:{}".format(time.localtime().tm_hour, time.localtime().tm_min)
+PWD   = 'pinkeye'
+MODEL = "{}/model.h5".format(PWD)
+LOGS  = "logs/{}:{}".format(time.localtime().tm_hour, time.localtime().tm_min)
 
 # 1. Import non-trainable inception model
 
@@ -22,9 +23,8 @@ y = base.output
 y = keras.layers.Dense(32, activation='relu')(y)
 y = keras.layers.Dense(3, activation='sigmoid')(y)
 
-path = "{}/model.h5".format(PWD)
-if os.path.isfile(path):
-    model = keras.models.load_model(path)
+if os.path.isfile(MODEL):
+    model = keras.models.load_model(MODEL)
 else:
     model = keras.models.Model(inputs=base.input, outputs=y)
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
@@ -47,8 +47,8 @@ train_generator = train_datagen.flow_from_directory(
     batch_size=16,
     class_mode='categorical')
 
-viz  = keras.callbacks.TensorBoard(log_dir=LOG, write_graph=True)
-save = keras.callbacks.ModelCheckpoint(path, period=1)
+viz  = keras.callbacks.TensorBoard(log_dir=LOGS, write_graph=True)
+save = keras.callbacks.ModelCheckpoint(MODEL, period=1)
 
 model.fit_generator(
     train_generator,
