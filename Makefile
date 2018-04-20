@@ -3,7 +3,6 @@ start:
 	@docker start tensorflow-playground
 
 run:
-	@docker exec -it tensorflow-playground rm -rf logs
 	@docker exec -it tensorflow-playground python3 $(file).py $(arg)
 
 tensorboard:
@@ -13,5 +12,6 @@ bash:
 	@docker exec -it tensorflow-playground bash
 
 stop:
+	@docker exec -it tensorflow-playground rm -rf logs
 	@docker stop tensorflow-playground
 	@docker rm tensorflow-playground

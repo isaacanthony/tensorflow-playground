@@ -1,9 +1,11 @@
 import os.path
 import tensorflow.contrib.keras as keras
-
-# 1. Import non-trainable inception model
+import time
 
 PWD = 'pinkeye'
+LOG = "logs/{}:{}".format(time.localtime().tm_hour, time.localtime().tm_min)
+
+# 1. Import non-trainable inception model
 
 base = keras.applications.inception_v3.InceptionV3(
     include_top=False,
@@ -45,7 +47,7 @@ train_generator = train_datagen.flow_from_directory(
     batch_size=16,
     class_mode='categorical')
 
-viz  = keras.callbacks.TensorBoard(log_dir='logs', write_graph=True)
+viz  = keras.callbacks.TensorBoard(log_dir=LOG, write_graph=True)
 save = keras.callbacks.ModelCheckpoint(path, period=1)
 
 model.fit_generator(
