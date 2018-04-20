@@ -8,6 +8,11 @@ run:
 tensorboard:
 	@docker exec -it tensorflow-playground tensorboard --logdir logs
 
+tfjs:
+	$(eval dir=`echo "$(file)" | sed -e "s/\.h5//g"`)
+	@docker exec -it tensorflow-playground pip3 install tensorflowjs
+	@docker exec -it tensorflow-playground tensorflowjs_converter --input_format keras $(file) $(dir)
+
 bash:
 	@docker exec -it tensorflow-playground bash
 
