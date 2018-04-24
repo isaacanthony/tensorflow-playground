@@ -3,19 +3,67 @@
 <head>
   <meta charset="utf-8">
   <title>TensorflowJS Test</title>
+  <style>.upload{margin-bottom: 20px;}</style>
 </head>
 <body>
+  <input type="file" class="upload"><br>
+  <canvas class="photo"></canvas><br>
+  <p class="output"></p>
+
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.9.0"> </script>
   <script>
     (function() {
-      const predict = async function() {
-        const model = await tf.loadModel('model/model.json');
-        console.log(model);
-        // const example = tf.fromPixels(webcamElement);
-        // const prediction = model.predict(example);
+      const SIZE = 299;
+
+      let print = function(predictions) {
+        let results = ['black eye', 'healthy eye', 'pink eye']
+          .map(function(el, i) { return {'label': el, 'value': predictions[i]}; })
+          .sort(function(a, b) { return b.value - a.value; });
+
+        console.log(results);
+        document.querySelector('.output').innerHTML = results[0].label;
       };
 
-      predict();
+      let predict = async function(photo) {
+        let model = await tf.loadModel('model/model.json');
+
+        let img = tf.fromPixels(photo, 3);
+        img = img.reshape([1, 299, 299, 3]);
+        img = tf.cast(img, 'float32');
+
+        let result = model.predict(img).dataSync();
+        print(result);
+      };
+
+      let resize = function(photo) {
+        var canvas = document.querySelector('.photo');
+        canvas.height = SIZE;
+        canvas.width  = SIZE;
+        var ctx = canvas.getContext('2d');
+
+        photo.height = SIZE;
+        photo.width = SIZE;
+        ctx.drawImage(photo, 0, 0, photo.width, photo.height);
+
+        return canvas.toDataURL('image/jpg');
+      };
+
+      let process = function(dataUrl) {
+        var photo = new Image;
+        photo.src = dataUrl;
+
+        photo.onload = function() {
+          var resized = new Image;
+          resized.src = resize(photo);
+          resized.onload = function() { predict(resized); }
+        };
+      };
+
+      document.querySelector('.upload').onchange = function(evt) {
+        var reader = new FileReader();
+        reader.onload = function() { process(reader.result); };
+        reader.readAsDataURL(evt.target.files[0]);
+      };
     })();
   </script>
 </body>
