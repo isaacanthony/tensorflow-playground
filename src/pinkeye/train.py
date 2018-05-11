@@ -24,7 +24,7 @@ else:
     # Add extra layers on top.
     y = base.output
     y = keras.layers.Dense(32, activation='relu')(y)
-    y = keras.layers.Dense(3, activation='sigmoid')(y)
+    y = keras.layers.Dense(3, activation='softmax')(y)
 
     # Construct model.
     model = keras.models.Model(inputs=base.input, outputs=y)
