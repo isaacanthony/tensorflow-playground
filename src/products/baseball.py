@@ -13,15 +13,16 @@ test_datagen = keras.preprocessing.image.ImageDataGenerator(
     rescale=1. / 255)
 
 test_generator = test_datagen.flow_from_directory(
-    "{}/baseball".format(PWD),
+    "{}/test".format(PWD),
     target_size=(299, 299),
     batch_size=32,
     class_mode='categorical',
     shuffle=False)
 
-# Test model.
+# Generate predictions.
 results = model.predict_generator(test_generator)
 
+# Manually calculate accuracy and coverage.
 count = 0.0
 total = 0.0
 
